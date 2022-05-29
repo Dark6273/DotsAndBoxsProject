@@ -9,6 +9,7 @@ public class Game extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Board board = new Board();
+        primaryStage.setResizable(false);
         board.board(primaryStage);
     }
 
