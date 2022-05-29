@@ -100,7 +100,7 @@ public class Lines{
             alert("You can't put here!", "Error: Used Line select!!!", "You can't put here!\nPlease choose another place.");
     }
 
-    public static void alert(String title, String header, String content)
+    private static void alert(String title, String header, String content)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

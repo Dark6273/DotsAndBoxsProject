@@ -70,6 +70,19 @@ public class Board {
             menuLine[i] = new Line(440, (30 + (i * 12)), 470, (30 + (i * 12)));
             menuLine[i].setStroke(Paint.valueOf("#2c3e50"));
             menuLine[i].setStrokeWidth(3);
+            menuLine[i].setCursor(javafx.scene.Cursor.HAND);
+        }
+        for (Line line : menuLine) {
+            line.setOnMouseEntered(event -> {
+                updateMenuLineEntered(menuLine);
+            });
+            line.setOnMouseClicked(event -> {
+                try {
+                    menu(primaryStage);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         Rectangle menuBox = new Rectangle(438, 28, 35, 30);
@@ -135,8 +148,7 @@ public class Board {
         Group root = new Group(background, borderTop, Title, board, borderBottom, turnBox, turn, menuBox, menuLine[0], menuLine[1], menuLine[2]);
 
         // Create tiles for the game board
-        Tile[][] tiles = new Tile[gameSize][gameSize];
-        tiles = Tile.tile(gameSize);
+        Rectangle[][] tiles = Tile.tile(gameSize);
         for (int i = 0; i < gameSize; i++)
             for (int j = 0; j < gameSize; j++)
                 root.getChildren().add(tiles[i][j]);
@@ -149,16 +161,23 @@ public class Board {
         add with a for loop the lines to the Group root
          */
         Line[][] horizontal = Lines.horizontalLine(gameSize);
-
         for (int i = 0; i < gameSize; i++)
             for (int j = 0; j <= gameSize; j++)
                 root.getChildren().add(horizontal[i][j]);
 
-        Line[][] vertical = Lines.verticalLine(gameSize);
 
+        Line[][] vertical = Lines.verticalLine(gameSize);
         for (int i = 0; i <= gameSize; i++)
             for (int j = 0; j < gameSize; j++)
                 root.getChildren().add(vertical[i][j]);
+
+
+        // create dots and add to the Group root
+        Rectangle[][] dots = Tile.dots(gameSize);
+        for (int i = 0; i <= gameSize; i++)
+            for (int j = 0; j <= gameSize; j++)
+                root.getChildren().add(dots[i][j]);
+
 
         checkBox.setLines(vertical, horizontal);
 
@@ -195,6 +214,7 @@ public class Board {
             players[1] = new Player(user2, "#1abc9c");
             gameSize = size;
             countOfBox = gameSize * gameSize;
+            Sound.soundStartGame();
             Game.setPlayers(players);
             System.out.println("Game Log: "  + user1 + " - " + user2 + "; size game: " + size);
             gameBoard(stage);
@@ -259,6 +279,7 @@ public class Board {
             else if (players[0].getScore() < players[1].getScore())
                 win = players[1];
             assert win != null;
+            Sound.soundWin();
             alert("","Win game","The " + win.getName() + " wins the game", Alert.AlertType.INFORMATION);
             board.setText("Winner of the game: " + win.getName());
             board.setStyle("-fx-font-size: 25px; -fx-text-fill: " + win.getColor() + "; -fx-font-family: 'Arial Black';");

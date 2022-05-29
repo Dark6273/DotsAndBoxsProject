@@ -1,6 +1,5 @@
 package com.project.example.dotsandboxsproject;
 
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -36,7 +35,7 @@ public class MenuBoard{
         Label title = new Label("Dots and Boxes");
         title.setStyle("-fx-font-size: 40px; -fx-text-fill: #2c3e50; -fx-font-family: 'Arial Black';");
         title.setLayoutX(85);
-        title.setLayoutY(80);
+        title.setLayoutY(70);
 
         Label player1 = new Label("Player 1");
         player1.setStyle("-fx-font-size: 20px; -fx-text-fill: #e74c3c; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #7f8c8d; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.75;");
