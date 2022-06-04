@@ -35,7 +35,7 @@ The game is created in **Java** language with the use of **Java FX** library
 │       └── resources\
 │           ├── Gif\
 │           │      ├── draw.gif\
-│           │      ├── winner.gif\
+│           │      └── winner.gif\
 │           ├── Images\
 │           │      ├── backgroundAuthor.png\
 │           │      ├── backgroundGame.png\
@@ -50,4 +50,5 @@ The game is created in **Java** language with the use of **Java FX** library
 ![The Game menu!](src/main/resources/Images/preview.png "Preview")
 
 ### Programmer
-**Dots and Boxes** Game was created by **[Mahdi Khosravi](https://t.me/HzZz_Mahdi_zZzH)**
+**Dots and Boxes** Game was created by **[Mahdi Khosravi](https://t.me/HzZz_Mahdi_zZzH)**\
+**__[Telegram](https://t.me/HzZz_Mahdi_zZzH)   ||   [Email](mailto:mahdi.khosravi6273@gmail.com)   ||   [Phone](+989306718379)__**
