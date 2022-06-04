@@ -1,5 +1,6 @@
 package com.project.example.dotsandboxsproject;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -59,11 +60,14 @@ public class Board {
         Title.setLayoutX(120);
         Title.setLayoutY(30);
 
-        board = new Label(players[0].getName() + "  :  " + players[0].getScore() + "  =  " + players[1].getName() + " : " + players[1].getScore());
-        board.setStyle("-fx-font-size: 20px; -fx-text-fill: #2c3e50; -fx-font-family: 'Arial Black';");
-        board.setLayoutX(100);
+        board = new Label(players[0].getName() + ": " + players[0].getScore() + "  =  " + players[1].getName() + ": " + players[1].getScore());
+        board.setStyle("-fx-font-size: 20px; -fx-text-fill: #2c3e50; -fx-font-family: 'Arial Black'; -fx-text-alignment: center;");
+        board.setLayoutX(50);
         board.setLayoutY(90);
-        board.setMaxWidth(300);
+        board.setMaxWidth(400);
+        board.setPrefSize(400, 35);
+        board.setAlignment(Pos.CENTER);
+
 
         Line[] menuLine = new Line[3];
         for (int i = 0; i < menuLine.length; i++) {
@@ -72,32 +76,12 @@ public class Board {
             menuLine[i].setStrokeWidth(3);
             menuLine[i].setCursor(javafx.scene.Cursor.HAND);
         }
-        for (Line line : menuLine) {
-            line.setOnMouseEntered(event -> {
-                updateMenuLineEntered(menuLine);
-            });
-            line.setOnMouseClicked(event -> {
-                try {
-                    menu(primaryStage);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
 
         Rectangle menuBox = new Rectangle(438, 28, 35, 30);
         menuBox.setFill(Color.TRANSPARENT);
         menuBox.setCursor(javafx.scene.Cursor.HAND);
         menuBox.setOnMouseEntered(event -> updateMenuLineEntered(menuLine));
         menuBox.setOnMouseExited(event -> updateMenuLineExited(menuLine));
-        menuBox.setOnMouseClicked(event -> {
-            try {
-                menu(primaryStage);
-                System.out.println("Exit Game and go to menu");
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
 
 
@@ -143,6 +127,7 @@ public class Board {
         turn.setLayoutX(50);
         turn.setLayoutY(165);
         turn.setOpacity(0); // hide the label
+        turn.setMaxWidth(200);
 
 
         Group root = new Group(background, borderTop, Title, board, borderBottom, turnBox, turn, menuBox, menuLine[0], menuLine[1], menuLine[2]);
@@ -160,13 +145,13 @@ public class Board {
         create vertical lines and add the Group root
         add with a for loop the lines to the Group root
          */
-        Line[][] horizontal = Lines.horizontalLine(gameSize);
+        Line[][] horizontal = Lines.horizontalLine(gameSize, root, primaryStage);
         for (int i = 0; i < gameSize; i++)
             for (int j = 0; j <= gameSize; j++)
                 root.getChildren().add(horizontal[i][j]);
 
 
-        Line[][] vertical = Lines.verticalLine(gameSize);
+        Line[][] vertical = Lines.verticalLine(gameSize, root, primaryStage);
         for (int i = 0; i <= gameSize; i++)
             for (int j = 0; j < gameSize; j++)
                 root.getChildren().add(vertical[i][j]);
@@ -180,6 +165,19 @@ public class Board {
 
 
         checkBox.setLines(vertical, horizontal);
+
+        for (Line line : menuLine) {
+            line.setOnMouseEntered(event -> {
+                updateMenuLineEntered(menuLine);
+            });
+            line.setOnMouseClicked(event -> {
+                MenuGame.menu(root, menuLine, primaryStage);
+            });
+        }
+        menuBox.setOnMouseClicked(event -> {
+            MenuGame.menu(root, menuLine, primaryStage);
+            System.out.println("Open menu game board");
+        });
 
 
         Scene scene = new Scene(root,500, 650);
@@ -223,15 +221,15 @@ public class Board {
 
     public static void updateBoard() {
         if (players[0].getScore() > players[1].getScore()) {
-            board.setText(players[0].getName() + "  :  " + players[0].getScore() + "  >  " + players[1].getName() + " : " + players[1].getScore());
+            board.setText(players[0].getName() + ": " + players[0].getScore() + "  >  " + players[1].getName() + ": " + players[1].getScore());
             board.setStyle("-fx-font-size: 20px; -fx-text-fill: " + players[0].getColor() + "; -fx-font-family: 'Arial Black';");
         }
         else if (players[0].getScore() < players[1].getScore()) {
-            board.setText(players[0].getName() + "  :  " + players[0].getScore() + "  <  " + players[1].getName() + " : " + players[1].getScore());
+            board.setText(players[0].getName() + ": " + players[0].getScore() + "  <  " + players[1].getName() + ": " + players[1].getScore());
             board.setStyle("-fx-font-size: 20px; -fx-text-fill: " + players[1].getColor() + "; -fx-font-family: 'Arial Black';");
         }
         else {
-            board.setText(players[0].getName() + "  :  " + players[0].getScore() + "  =  " + players[1].getName() + " : " + players[1].getScore());
+            board.setText(players[0].getName() + ": " + players[0].getScore() + "  =  " + players[1].getName() + ": " + players[1].getScore());
             board.setStyle("-fx-font-size: 20px; -fx-text-fill: #2c3e50; -fx-font-family: 'Arial Black';");
         }
     }
@@ -260,7 +258,7 @@ public class Board {
         lines[1].setOpacity(0);
     }
 
-    private static void  updateMenuLineExited(Line[] lines){
+    public static void  updateMenuLineExited(Line[] lines){
         lines[0].setStartY(30);
         lines[0].setEndY(30);
         lines[2].setStartY(54);
@@ -268,8 +266,7 @@ public class Board {
         lines[1].setOpacity(100);
     }
 
-    public static void checkFinish()
-    {
+    public static void checkFinish(Group root, Stage stage) throws FileNotFoundException {
         countOfBox--;
         if (countOfBox == 0)
         {
@@ -279,12 +276,21 @@ public class Board {
             else if (players[0].getScore() < players[1].getScore())
                 win = players[1];
             assert win != null;
-            Sound.soundWin();
-            alert("","Win game","The " + win.getName() + " wins the game", Alert.AlertType.INFORMATION);
-            board.setText("Winner of the game: " + win.getName());
-            board.setStyle("-fx-font-size: 25px; -fx-text-fill: " + win.getColor() + "; -fx-font-family: 'Arial Black';");
-            board.setLayoutX(60);
-            board.setMaxWidth(380);
+            if (players[0].getScore() != players[1].getScore())
+            {
+                Sound.soundWin();
+                Win.win(root, stage, win);
+                board.setText("Winner of the game: " + win.getName());
+                board.setStyle("-fx-font-size: 25px; -fx-text-fill: " + win.getColor() + "; -fx-font-family: 'Arial Black';");
+                board.setLayoutX(60);
+                board.setMaxWidth(380);
+            }
+            else
+            {
+                Sound.soundWin();
+                System.out.println("Draw game");
+                Win.win(root, stage, null);
+            }
         }
     }
 }

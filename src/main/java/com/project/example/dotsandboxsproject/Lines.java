@@ -1,8 +1,13 @@
 package com.project.example.dotsandboxsproject;
 
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
+import java.util.Stack;
 
 /*
  * This class is used to create a line between two points.
@@ -19,7 +24,7 @@ import javafx.scene.shape.Line;
 
 public class Lines{
     private static Player currentPlayer = Game.currentPlayer(false);
-    public static Line[][] horizontalLine(int size)
+    public static Line[][] horizontalLine(int size, Group root, Stage stage)
     {
         Line[][] lines = new Line[size][size + 1];
         int width = 460 / (size + 2);
@@ -35,14 +40,20 @@ public class Lines{
                 int finalJ = j;
                 lines[i][j].setOnMouseEntered(mouseEvent -> mouseHover(lines[finalI][finalJ]));
                 lines[i][j].setOnMouseExited(mouseEvent -> mouseExit(lines[finalI][finalJ]));
-                lines[i][j].setOnMouseClicked(mouseEvent -> mouseClick(lines[finalI][finalJ], size));
+                lines[i][j].setOnMouseClicked(mouseEvent -> {
+                    try {
+                        mouseClick(lines[finalI][finalJ], size, root, stage);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                 lines[i][j].setId(i + "," + j + ",horizontal");
             }
         }
         return lines;
     }
 
-    public static Line[][] verticalLine(int size)
+    public static Line[][] verticalLine(int size, Group root, Stage stage)
     {
         Line[][] lines = new Line[size + 1][size];
         int width = 460 / (size + 2);
@@ -58,7 +69,13 @@ public class Lines{
                 int finalJ = j;
                 lines[i][j].setOnMouseEntered(mouseEvent -> mouseHover(lines[finalI][finalJ]));
                 lines[i][j].setOnMouseExited(mouseEvent -> mouseExit(lines[finalI][finalJ]));
-                lines[i][j].setOnMouseClicked(mouseEvent -> mouseClick(lines[finalI][finalJ], size));
+                lines[i][j].setOnMouseClicked(mouseEvent -> {
+                    try {
+                        mouseClick(lines[finalI][finalJ], size, root, stage);
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                 lines[i][j].setId(i + "," + j + ",vertical");
             }
         }
@@ -78,8 +95,7 @@ public class Lines{
             line.setStroke(Paint.valueOf("#7f8c8d"));
     }
 
-    public static void mouseClick(Line line, int size)
-    {
+    public static void mouseClick(Line line, int size, Group root, Stage stage) throws FileNotFoundException {
         if (!line.getStroke().equals(Paint.valueOf("#34495e"))) {
             line.setStroke(Paint.valueOf("#34495e"));
             line.setCursor(javafx.scene.Cursor.DEFAULT);
@@ -91,7 +107,7 @@ public class Lines{
                 currentPlayer = Game.currentPlayer(true);
             } else {
                 currentPlayer = Game.currentPlayer(false);
-                Board.checkFinish();
+                Board.checkFinish(root, stage);
             }
 
             Board.updateTurn(currentPlayer);

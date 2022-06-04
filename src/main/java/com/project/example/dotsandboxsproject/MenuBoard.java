@@ -97,17 +97,17 @@ public class MenuBoard{
             }
         });
 
-        Button author = new Button("Author");
-        author.setStyle("-fx-font-size: 25px; -fx-text-fill: #92B4EC; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #92B4EC; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.9;");
-        author.setLayoutX(100);
-        author.setLayoutY(550);
-        author.setMinWidth(100);
-        author.setCursor(javafx.scene.Cursor.HAND);
-        author.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        Button programmer = new Button("PG :)");
+        programmer.setStyle("-fx-font-size: 25px; -fx-text-fill: #92B4EC; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #92B4EC; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.9;");
+        programmer.setLayoutX(100);
+        programmer.setLayoutY(550);
+        programmer.setMinWidth(100);
+        programmer.setCursor(javafx.scene.Cursor.HAND);
+        programmer.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 try {
-                    primaryStage.setScene(Author.author(primaryStage));
+                    primaryStage.setScene(Programmer.author(primaryStage));
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -130,7 +130,7 @@ public class MenuBoard{
         });
 
 
-        Group menu = new Group(background, title, player1, player2, player1Input, player2Input, gameSize, gameSizeSlider, startGame, author, exit);
+        Group menu = new Group(background, title, player1, player2, player1Input, player2Input, gameSize, gameSizeSlider, startGame, programmer, exit);
         primaryStage.setTitle("Dots and Boxes");
         primaryStage.setScene(new Scene(menu, 500, 650));
     }
