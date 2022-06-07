@@ -3,9 +3,9 @@ package com.project.example.dotsandboxsproject;
 import java.util.UUID;
 
 public class Player {
-    private final String Name;
+    private String Name;
     private int Score = 0;
-    private final String Color;
+    private String Color;
     private final String Id;
 
     public Player(String name, String color)
@@ -34,5 +34,11 @@ public class Player {
     public void addScore()
     {
         this.Score += 1;
+    }
+
+    public void update(String name, String color)
+    {
+        this.Name = name;
+        this.Color = color;
     }
 }

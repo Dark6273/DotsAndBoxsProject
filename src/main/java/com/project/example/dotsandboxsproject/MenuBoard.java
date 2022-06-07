@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MenuBoard{
 
-    public void menu(Stage primaryStage) throws FileNotFoundException {
+    public void menu(Stage primaryStage) throws IOException {
 
         // open image and set it as background of the scene (help from https://stackoverflow.com/questions/43089878/how-to-set-background-image-in-javafx)
         Rectangle background = new Rectangle(0, 0, 500, 650);
@@ -47,14 +48,17 @@ public class MenuBoard{
         player2.setLayoutX(65);
         player2.setLayoutY(300);
 
-        TextField player1Input = new TextField("Player 1");
-        player1Input.setStyle("-fx-font-size: 20px; -fx-text-fill: #e74c3c; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #34495e; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.75;");
+        String[] playerNames = Setting.getNamePlayers();
+        String[] playerColors = Setting.getColorPlayers();
+
+        TextField player1Input = new TextField(playerNames[0]);
+        player1Input.setStyle("-fx-font-size: 20px; -fx-text-fill: " + playerColors[0] + "; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #34495e; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.75;");
         player1Input.setLayoutX(160);
         player1Input.setLayoutY(240);
         player1Input.setId("player1");
 
-        TextField player2Input = new TextField("Player 2");
-        player2Input.setStyle("-fx-font-size: 20px; -fx-text-fill: #1abc9c; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #34495e; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.75;");
+        TextField player2Input = new TextField(playerNames[1]);
+        player2Input.setStyle("-fx-font-size: 20px; -fx-text-fill: " + playerColors[1] + "; -fx-font-family: 'Arial Black'; -fx-background-color: #fff; -fx-border-color: #34495e; -fx-border-width: 2px; -fx-border-radius: 10px; -fx-padding: 5px; -fx-opacity: 0.75;");
         player2Input.setLayoutX(160);
         player2Input.setLayoutY(360);
         player2Input.setId("player2");

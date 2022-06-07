@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Win {
     public static void win(Group root, Stage stage, Player win) throws FileNotFoundException {
@@ -95,6 +96,8 @@ public class Win {
             try {
                 Board.menu(stage);
             } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });

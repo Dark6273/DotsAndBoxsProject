@@ -14,10 +14,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Optional;
 
 public class MenuGame{
-    public static void menu(Group root, Line[] menuLine, Stage stage) {
+    public static void menu(Group root, Line[] menuLine, Stage stage, Player[] players) {
         /*
         crete a rectangle and set opacity 60 percent
         in center add another rectangle and add tree button 1-exit game, 2-resume, 3-menu
@@ -45,33 +46,40 @@ public class MenuGame{
         resume.setOnMouseClicked(event -> resumeGame(root, menuLine));
 
 
-        Button menu = new Button("Menu");
-        menu.setLayoutX(57);
-        menu.setLayoutY(500);
-        menu.setMinWidth(380);
-        menu.setStyle("-fx-font-size: 20px; -fx-background-color: #ecf0f1; -fx-text-fill: #27ae60; -fx-font-family: 'Arial Black'; -fx-border-color: #27ae60; -fx-border-width: 5px; -fx-border-radius: 10px;");
-        menu.setCursor(Cursor.HAND);
-        menu.setOnMouseEntered(event -> enteredButton(menu, "#27ae60"));
-        menu.setOnMouseExited(event -> exitButton(menu, "#27ae60"));
-        menu.setOnMouseClicked(event -> {
+        Button setting = new Button("Setting");
+        setting.setLayoutX(57);
+        setting.setLayoutY(500);
+        setting.setMinWidth(380);
+        setting.setStyle("-fx-font-size: 20px; -fx-background-color: #ecf0f1; -fx-text-fill: #27ae60; -fx-font-family: 'Arial Black'; -fx-border-color: #27ae60; -fx-border-width: 5px; -fx-border-radius: 10px;");
+        setting.setCursor(Cursor.HAND);
+        setting.setOnMouseEntered(event -> enteredButton(setting, "#27ae60"));
+        setting.setOnMouseExited(event -> exitButton(setting, "#27ae60"));
+        setting.setOnMouseClicked(event -> {
             try {
-                Board.menu(stage);
-            } catch (FileNotFoundException e) {
+                SettingPage.setting(root, players);
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
 
-        Button exit = new Button("Exit");
-        exit.setLayoutX(57);
-        exit.setLayoutY(560);
-        exit.setMinWidth(380);
-        exit.setStyle("-fx-font-size: 20px; -fx-background-color: #ecf0f1; -fx-text-fill: #c0392b; -fx-font-family: 'Arial Black'; -fx-border-color: #c0392b; -fx-border-width: 5px; -fx-border-radius: 10px;");
-        exit.setCursor(Cursor.HAND);
-        exit.setOnMouseEntered(event -> enteredButton(exit, "#c0392b"));
-        exit.setOnMouseExited(event -> exitButton(exit, "#c0392b"));
-        exit.setOnMouseClicked(event -> exitClick());
 
-        root.getChildren().addAll(background, menuBox, resume, menu, exit);
+        Button menu = new Button("Menu");
+        menu.setLayoutX(57);
+        menu.setLayoutY(560);
+        menu.setMinWidth(380);
+        menu.setStyle("-fx-font-size: 20px; -fx-background-color: #ecf0f1; -fx-text-fill: #c0392b; -fx-font-family: 'Arial Black'; -fx-border-color: #c0392b; -fx-border-width: 5px; -fx-border-radius: 10px;");
+        menu.setCursor(Cursor.HAND);
+        menu.setOnMouseEntered(event -> enteredButton(menu, "#c0392b"));
+        menu.setOnMouseExited(event -> exitButton(menu, "#c0392b"));
+        menu.setOnMouseClicked(event -> {
+            try {
+                Board.menu(stage);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        root.getChildren().addAll(background, menuBox, resume, menu, setting);
     }
 
     private static void resumeGame(Group root, Line[] menuLine) {
@@ -91,16 +99,5 @@ public class MenuGame{
     private static void exitButton(Button button, String color)
     {
         button.setStyle("-fx-font-size: 20px; -fx-background-color: #ecf0f1; -fx-text-fill: " + color + "; -fx-font-family: 'Arial Black'; -fx-border-color: " + color + "; -fx-border-width: 5px; -fx-border-radius: 10px;");
-    }
-
-    private static void exitClick()
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Exit");
-        alert.setHeaderText("Are you sure you want to exit?");
-        alert.setContentText("Click OK to exit, or Cancel to stay.");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK)
-            System.exit(0);
     }
 }

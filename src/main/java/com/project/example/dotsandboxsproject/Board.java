@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Board {
@@ -171,11 +172,11 @@ public class Board {
                 updateMenuLineEntered(menuLine);
             });
             line.setOnMouseClicked(event -> {
-                MenuGame.menu(root, menuLine, primaryStage);
+                MenuGame.menu(root, menuLine, primaryStage, players);
             });
         }
         menuBox.setOnMouseClicked(event -> {
-            MenuGame.menu(root, menuLine, primaryStage);
+            MenuGame.menu(root, menuLine, primaryStage, players);
             System.out.println("Open menu game board");
         });
 
@@ -185,7 +186,7 @@ public class Board {
         primaryStage.setTitle("Dots and Boxes " + players[0].getName() + " vs " + players[1].getName());
     }
 
-    public static void menu(Stage primaryStage) throws FileNotFoundException {
+    public static void menu(Stage primaryStage) throws IOException {
         /*
         call menu scene and show on in the primary stage of the application
         */

@@ -10,9 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-
+import java.awt.Desktop;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Programmer {
     public static Scene author(Stage primaryStage) throws FileNotFoundException {
@@ -42,6 +44,13 @@ public class Programmer {
         emailAddress.setLayoutX(20);
         emailAddress.setLayoutY(200);
         emailAddress.setCursor(Cursor.HAND);
+        emailAddress.setOnMouseClicked(e -> {
+            try {
+                Desktop.getDesktop().mail(java.net.URI.create("mailto:mahdi.khosravi6273@gmail.com"));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         Label github = new Label("Github:");
         github.setStyle("-fx-font-size: 28px; -fx-text-fill: #7f8c8d; -fx-font-family: 'Arial';");
@@ -52,6 +61,14 @@ public class Programmer {
         githubAddress.setStyle("-fx-font-size: 20px; -fx-text-fill: #7f8c8d; -fx-font-family: 'Arial';");
         githubAddress.setLayoutX(20);
         githubAddress.setLayoutY(270);
+        githubAddress.setCursor(Cursor.HAND);
+        githubAddress.setOnMouseClicked(e -> {
+            try {
+                Desktop.getDesktop().browse(java.net.URI.create("https://github.com/dark6273"));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         Label university = new Label("University: \nShahrood University");
         university.setStyle("-fx-font-size: 28px; -fx-text-fill: #7f8c8d; -fx-font-family: 'Arial';");
