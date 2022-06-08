@@ -1,0 +1,2 @@
+TODO 1- check win algorithm
+TODO 2- when click default button first showing default values then you have option to enter then or not
