@@ -52,6 +52,7 @@ public class checkBox {
             currentPlayer.addScore();
             System.out.println(currentPlayer.getName() + ": " + currentPlayer.getScore());
             Tile.changeColor(x, (y - 1), currentPlayer.getColor());
+            Board.updateCountOfBox();
             return true;
         }
         else
@@ -64,6 +65,7 @@ public class checkBox {
             currentPlayer.addScore();
             System.out.println(currentPlayer.getName() + ": "+ currentPlayer.getScore());
             Tile.changeColor(x, y, currentPlayer.getColor());
+            Board.updateCountOfBox();
             return true;
         }
         return false;
@@ -76,6 +78,7 @@ public class checkBox {
             currentPlayer.addScore();
             System.out.println(currentPlayer.getName() + ": " + currentPlayer.getScore());
             Tile.changeColor(x, y, currentPlayer.getColor());
+            Board.updateCountOfBox();
             return true;
         }
         return false;
@@ -88,6 +91,7 @@ public class checkBox {
             currentPlayer.addScore();
             System.out.println(currentPlayer.getName() + ": " + currentPlayer.getScore());
             Tile.changeColor((x - 1), y, currentPlayer.getColor());
+            Board.updateCountOfBox();
             return true;
         }
         return false;

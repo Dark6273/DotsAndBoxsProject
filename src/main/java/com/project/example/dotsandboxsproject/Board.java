@@ -267,8 +267,10 @@ public class Board {
         lines[1].setOpacity(100);
     }
 
-    public static void checkFinish(Group root, Stage stage) throws FileNotFoundException {
+    public static void updateCountOfBox() {
         countOfBox--;
+    }
+    public static void checkFinish(Group root, Stage stage) throws FileNotFoundException {
         if (countOfBox == 0)
         {
             Player win = null;
